@@ -44,7 +44,7 @@
   <!-- SDK de Firebase -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js"; // Importar Firestore
 
     // Tu configuración de Firebase
     const firebaseConfig = {
@@ -59,22 +59,22 @@
 
     // Inicializar Firebase
     const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    const db = getFirestore(app); // Inicializar Firestore
 
     // Obtener y mostrar reservas
     async function mostrarReservas() {
       const reservasRef = collection(db, "reservas");
-      const querySnapshot = await getDocs(reservasRef);
+      const querySnapshot = await getDocs(reservasRef); // Obtener los documentos de Firestore
 
       querySnapshot.forEach((doc) => {
-        const data = doc.data();
+        const data = doc.data(); // Obtener los datos del documento
         const fila = document.createElement("tr");
         fila.innerHTML = `
           <td>${data.nombre || 'Sin nombre'}</td>
           <td>${data.referencia || 'Sin referencia'}</td>
           <td>${data.carton || 'Sin número'}</td>
         `;
-        document.getElementById("tablaReservas").appendChild(fila);
+        document.getElementById("tablaReservas").appendChild(fila); // Agregar la fila a la tabla
       });
     }
 
