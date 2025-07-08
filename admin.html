@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Administración - El Cartón Dorado</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #1b1b1b;
+      color: #fff;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #d4af37;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table, th, td {
+      border: 1px solid #d4af37;
+    }
+    th, td {
+      padding: 12px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Reservas - El Cartón Dorado</h1>
+
+  <table id="tablaReservas">
+    <tr>
+      <th>Nombre</th>
+      <th>Referencia</th>
+      <th>Cartón</th>
+    </tr>
+  </table>
+
+  <!-- SDK de Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+    // Tu configuración de Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyAC5BOfNSjl3srfDf_KzbGW_XLLv4x51hI",
+      authDomain: "bingo-carton-dorado.firebaseapp.com",
+      projectId: "bingo-carton-dorado",
+      storageBucket: "bingo-carton-dorado.firebasestorage.app",
+      messagingSenderId: "408770828720",
+      appId: "1:408770828720:web:fa0cd91e340899e6ad1e75",
+      measurementId: "G-PQ8DD9QYEH"
+    };
+
+    // Inicializar Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Obtener y mostrar reservas
+    async function mostrarReservas() {
+      const reservasRef = collection(db, "reservas");
+      const querySnapshot = await getDocs(reservasRef);
+
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+          <td>${data.nombre || 'Sin nombre'}</td>
+          <td>${data.referencia || 'Sin referencia'}</td>
+          <td>${data.carton || 'Sin número'}</td>
+        `;
+        document.getElementById("tablaReservas").appendChild(fila);
+      });
+    }
+
+    // Ejecutar función
+    mostrarReservas();
+  </script>
+
+</body>
+</html>
